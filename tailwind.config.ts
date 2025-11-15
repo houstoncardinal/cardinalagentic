@@ -57,6 +57,9 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        success: "hsl(var(--success))",
+        warning: "hsl(var(--warning))",
+        info: "hsl(var(--info))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -110,10 +113,14 @@ export default {
       backgroundImage: {
         "gradient-hero": "var(--gradient-hero)",
         "gradient-card": "var(--gradient-card)",
+        "gradient-accent": "var(--gradient-accent)",
+        "gradient-mesh": "var(--gradient-mesh)",
       },
       boxShadow: {
         elegant: "var(--shadow-elegant)",
         hover: "var(--shadow-hover)",
+        glow: "var(--shadow-glow)",
+        "glow-accent": "var(--shadow-glow-accent)",
       },
     },
   },
