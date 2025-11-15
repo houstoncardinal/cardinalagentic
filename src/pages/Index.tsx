@@ -170,38 +170,169 @@ const Index = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-hero">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNiIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIi8+PC9nPjwvc3ZnPg==')] opacity-20" />
+      <section className="relative overflow-hidden border-b border-border">
+        <div className="absolute inset-0 bg-gradient-mesh" />
         
-        <div className="container mx-auto px-6 py-24 md:py-32 relative">
-          <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-in">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium">
-              <Sparkles className="h-4 w-4" />
-              Next-Generation AI Agent Suite
+        <div className="container mx-auto px-6 py-16 md:py-24 lg:py-32 relative">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left Column - Main Content */}
+            <div className="space-y-8 animate-fade-in">
+              <div className="space-y-6">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/5 border border-accent/10 text-accent text-sm font-semibold">
+                  <Sparkles className="h-4 w-4" />
+                  Enterprise AI Agent Platform
+                </div>
+                
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight tracking-tight">
+                  Automate Your Business with{" "}
+                  <span className="text-accent">Intelligent AI Agents</span>
+                </h1>
+                
+                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                  Deploy 14 specialized AI agents that work together seamlessly to transform your operations. 
+                  From market research to compliance, our autonomous agents handle complex workflows while you focus on growth.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/10 text-accent mt-1">
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">Multi-Agent Collaboration</h3>
+                    <p className="text-sm text-muted-foreground">Agents communicate and coordinate autonomously to complete complex business processes end-to-end</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/10 text-accent mt-1">
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">Enterprise-Grade Integration</h3>
+                    <p className="text-sm text-muted-foreground">Seamlessly connect with your existing tools: Salesforce, Jira, Workday, and 50+ platforms</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/10 text-accent mt-1">
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">SOC 2 Type II Compliant</h3>
+                    <p className="text-sm text-muted-foreground">Bank-level security with continuous monitoring, encryption, and audit trails for every action</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-2">
+                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg hover:shadow-xl transition-all group">
+                  Start Free Trial
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button size="lg" variant="outline" className="border-border hover:bg-muted">
+                  <Shield className="mr-2 h-5 w-5" />
+                  View Security & Compliance
+                </Button>
+              </div>
+
+              <div className="flex items-center gap-8 pt-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <svg className="h-5 w-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="font-medium">No credit card required</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="h-5 w-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="font-medium">14-day free trial</span>
+                </div>
+              </div>
             </div>
-            
-            <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
-              Cardinal AI Agents
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-white/80 max-w-2xl mx-auto leading-relaxed">
-              Transform your enterprise operations with 14 specialized AI agents designed for seamless integration and intelligent automation.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Button size="lg" className="bg-accent hover:bg-accent/90 text-white group">
-                Explore Our Agents
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-              <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
-                <Shield className="mr-2 h-5 w-5" />
-                View Security
-              </Button>
+
+            {/* Right Column - Stats & Visual */}
+            <div className="space-y-6 animate-fade-in" style={{ animationDelay: '200ms' }}>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-card border border-border rounded-lg p-6 shadow-elegant hover:shadow-hover transition-all">
+                  <div className="text-3xl font-bold text-foreground mb-1">99.9%</div>
+                  <div className="text-sm text-muted-foreground">Uptime SLA</div>
+                </div>
+                <div className="bg-card border border-border rounded-lg p-6 shadow-elegant hover:shadow-hover transition-all">
+                  <div className="text-3xl font-bold text-foreground mb-1">10M+</div>
+                  <div className="text-sm text-muted-foreground">Tasks Processed</div>
+                </div>
+                <div className="bg-card border border-border rounded-lg p-6 shadow-elegant hover:shadow-hover transition-all">
+                  <div className="text-3xl font-bold text-foreground mb-1">50+</div>
+                  <div className="text-sm text-muted-foreground">Integrations</div>
+                </div>
+                <div className="bg-card border border-border rounded-lg p-6 shadow-elegant hover:shadow-hover transition-all">
+                  <div className="text-3xl font-bold text-foreground mb-1">24/7</div>
+                  <div className="text-sm text-muted-foreground">Support</div>
+                </div>
+              </div>
+
+              <div className="bg-card border border-border rounded-xl p-8 shadow-elegant">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-muted-foreground">Agent Network Status</span>
+                    <span className="flex items-center gap-2 text-xs font-semibold text-success">
+                      <span className="flex h-2 w-2 rounded-full bg-success animate-pulse" />
+                      All Systems Operational
+                    </span>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    {[
+                      { name: 'Market Research', value: 98 },
+                      { name: 'CRM & Sales', value: 100 },
+                      { name: 'Content Generation', value: 95 },
+                      { name: 'Security & Compliance', value: 100 },
+                    ].map((agent) => (
+                      <div key={agent.name} className="space-y-2">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-foreground font-medium">{agent.name}</span>
+                          <span className="text-muted-foreground">{agent.value}%</span>
+                        </div>
+                        <div className="h-2 bg-muted rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-accent rounded-full transition-all duration-500"
+                            style={{ width: `${agent.value}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center gap-8 text-muted-foreground">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-foreground">500+</div>
+                  <div className="text-xs">Enterprise Clients</div>
+                </div>
+                <div className="h-12 w-px bg-border" />
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-foreground">14</div>
+                  <div className="text-xs">Specialized Agents</div>
+                </div>
+                <div className="h-12 w-px bg-border" />
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-foreground">85%</div>
+                  <div className="text-xs">Cost Reduction</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       </section>
 
       <TrustSection />
