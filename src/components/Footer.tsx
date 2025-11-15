@@ -51,7 +51,7 @@ const Footer = () => {
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent">
                 <Brain className="h-6 w-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-white">Cardinal AI</span>
+              <span className="text-xl font-bold text-white">Cardinal Agentic</span>
             </div>
             <p className="text-white/70 text-sm max-w-sm">
               Transform your enterprise operations with specialized AI agents designed for seamless integration and intelligent automation.
@@ -95,7 +95,7 @@ const Footer = () => {
         <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-white/60">
-              © 2024 Cardinal AI Agents. All rights reserved.
+              © 2024 Cardinal Agentic. All rights reserved.
             </p>
             <div className="flex items-center gap-6 text-sm text-white/60">
               <a href="#" className="hover:text-white transition-colors">Privacy</a>
