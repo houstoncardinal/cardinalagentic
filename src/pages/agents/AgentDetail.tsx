@@ -13,6 +13,8 @@ import { PricingSection } from "@/components/agent-detail/PricingSection";
 import { PerformanceSection } from "@/components/agent-detail/PerformanceSection";
 import { IntegrationsSection } from "@/components/agent-detail/IntegrationsSection";
 import { ApiDocSection } from "@/components/agent-detail/ApiDocSection";
+import { TechnicalSpecsSection } from "@/components/agent-detail/TechnicalSpecsSection";
+import { DeploymentSection } from "@/components/agent-detail/DeploymentSection";
 
 const AgentDetail = () => {
   const { agentId } = useParams();
@@ -165,8 +167,10 @@ const AgentDetail = () => {
       <section className="py-16 bg-background">
         <div className="container mx-auto px-6">
           <Tabs defaultValue="capabilities" className="max-w-6xl mx-auto">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-8">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-7 mb-8">
               <TabsTrigger value="capabilities">Capabilities</TabsTrigger>
+              <TabsTrigger value="specs">Tech Specs</TabsTrigger>
+              <TabsTrigger value="deployment">Deployment</TabsTrigger>
               <TabsTrigger value="pricing">Pricing</TabsTrigger>
               <TabsTrigger value="performance">Performance</TabsTrigger>
               <TabsTrigger value="integrations">Integrations</TabsTrigger>
@@ -198,6 +202,14 @@ const AgentDetail = () => {
                   ))}
                 </div>
               </div>
+            </TabsContent>
+
+            <TabsContent value="specs" className="space-y-8">
+              <TechnicalSpecsSection agent={agent} />
+            </TabsContent>
+
+            <TabsContent value="deployment" className="space-y-8">
+              <DeploymentSection />
             </TabsContent>
 
             <TabsContent value="pricing" className="space-y-6">
