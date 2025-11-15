@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import TrustSection from "@/components/TrustSection";
 import FeaturesSection from "@/components/FeaturesSection";
@@ -225,10 +226,12 @@ const Index = () => {
               Deploy Cardinal AI Agents and unlock unprecedented efficiency across your entire organization.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg group">
-                Get Started Today
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <Link to="/auth">
+                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg group">
+                  Get Started Today
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
               <Button size="lg" variant="outline">
                 Schedule Demo
               </Button>
