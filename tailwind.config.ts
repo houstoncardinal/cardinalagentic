@@ -114,6 +114,7 @@ export default {
         "gradient-hero": "var(--gradient-hero)",
         "gradient-card": "var(--gradient-card)",
         "gradient-accent": "var(--gradient-accent)",
+        "gradient-feature": "var(--gradient-feature)",
         "gradient-mesh": "var(--gradient-mesh)",
       },
       boxShadow: {
@@ -121,6 +122,7 @@ export default {
         hover: "var(--shadow-hover)",
         glow: "var(--shadow-glow)",
         "glow-accent": "var(--shadow-glow-accent)",
+        enterprise: "0 20px 60px -15px hsl(var(--accent) / 0.1)",
       },
     },
   },
