@@ -6,163 +6,7 @@ import Footer from "@/components/Footer";
 import AgentCard from "@/components/AgentCard";
 import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowRight, Shield } from "lucide-react";
-
-const agents = [
-  {
-    number: 1,
-    name: "Market Research Agent",
-    modality: "Text-heavy",
-    integrations: [
-      "CRM Agent for client alignment",
-      "Branding & Marketing Agent for market insights",
-      "Industry databases and internal knowledge systems"
-    ],
-    model: "AWS Nova Lite"
-  },
-  {
-    number: 2,
-    name: "Product & Services Development Agent",
-    modality: "Text-heavy",
-    integrations: [
-      "Market Research Agent for trends data",
-      "Collaborative interfaces for human consultants",
-      "Internal project management systems"
-    ],
-    model: "Deepseek"
-  },
-  {
-    number: 3,
-    name: "Branding & Marketing Agent",
-    modality: "Multimodal (Text + Vision)",
-    integrations: [
-      "Market Research Agent for trend insights",
-      "External image sources and stock photography databases",
-      "Interactive dashboards and collaborative UX"
-    ],
-    model: "Claude Sonnet 4.5"
-  },
-  {
-    number: 4,
-    name: "Content & Copywriting Agent",
-    modality: "Text (High-volume)",
-    integrations: [
-      "Branding & Marketing Agent for consistent branding",
-      "Content management systems (CMS)",
-      "Social media platforms integration"
-    ],
-    model: "Deepseek"
-  },
-  {
-    number: 5,
-    name: "Marketing & Social Media Agent",
-    modality: "Multimodal (Visual + Text)",
-    integrations: [
-      "Social media APIs and analytics platforms",
-      "Content & Copywriting Agent collaboration",
-      "Branding & Marketing Agent coordination"
-    ],
-    model: "AWS Nova Lite"
-  },
-  {
-    number: 6,
-    name: "Speaking Engagement Agent",
-    modality: "Text-based Analytics",
-    integrations: [
-      "CRM Agent for speaking opportunities alignment",
-      "External event APIs integration",
-      "Internal calendars and scheduling systems"
-    ],
-    model: "AWS Nova Lite"
-  },
-  {
-    number: 7,
-    name: "Delivery & Product Development Agent",
-    modality: "Text-heavy",
-    integrations: [
-      "Project management systems",
-      "Development team collaboration tools",
-      "Quality assurance platforms"
-    ],
-    model: "Deepseek"
-  },
-  {
-    number: 8,
-    name: "Security & Compliance Agent",
-    modality: "Text (Policy Analysis)",
-    integrations: [
-      "Security platforms and monitoring tools",
-      "Real-time integration with all internal agents",
-      "Compliance management systems"
-    ],
-    model: "AWS Nova Lite"
-  },
-  {
-    number: 9,
-    name: "Virtual Receptionist Agent",
-    modality: "Text (Voice via STT)",
-    integrations: [
-      "Phone systems and communication platforms",
-      "CRM for request routing",
-      "Internal agent coordination"
-    ],
-    model: "AWS Nova Lite"
-  },
-  {
-    number: 10,
-    name: "Client Relationship Management Agent",
-    modality: "Text-heavy",
-    integrations: [
-      "Salesforce or HubSpot CRM core integration",
-      "Market research and financial agents",
-      "Branding agents for client communications"
-    ],
-    model: "Deepseek"
-  },
-  {
-    number: 11,
-    name: "Financial Analysis Agent",
-    modality: "Text-heavy",
-    integrations: [
-      "Financial systems and accounting software",
-      "Business intelligence platforms",
-      "Executive reporting dashboards"
-    ],
-    model: "AWS Nova Lite"
-  },
-  {
-    number: 12,
-    name: "Human Resources Agent",
-    modality: "Text + Document Analysis",
-    integrations: [
-      "HR systems (Workday, BambooHR)",
-      "Training & Development Agent collaboration",
-      "Employee management platforms"
-    ],
-    model: "AWS Nova Lite"
-  },
-  {
-    number: 13,
-    name: "Training & Development Agent",
-    modality: "Multimodal (Training Materials)",
-    integrations: [
-      "Internal LMS platforms and knowledge bases",
-      "HR Agent collaboration",
-      "Performance tracking systems"
-    ],
-    model: "AWS Nova Lite"
-  },
-  {
-    number: 14,
-    name: "Project Management Agent",
-    modality: "Text-heavy",
-    integrations: [
-      "Project management tools (Jira, Asana)",
-      "Team collaboration platforms",
-      "Resource allocation systems"
-    ],
-    model: "AWS Nova Lite"
-  }
-];
+import { agents } from "@/data/agentsData";
 
 const Index = () => {
   return (
@@ -371,22 +215,21 @@ const Index = () => {
       <EnterpriseSection />
 
       {/* CTA Section */}
-      <section id="pricing" className="py-24 bg-gradient-hero relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNiIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIi8+PC9nPjwvc3ZnPg==')] opacity-20" />
+      <section id="pricing" className="py-24 border-b border-border bg-gradient-mesh relative overflow-hidden">
         <div className="container mx-auto px-6 relative">
           <div className="max-w-3xl mx-auto text-center space-y-8">
-            <h2 className="text-4xl md:text-5xl font-bold text-white">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
               Ready to Transform Your Business?
             </h2>
-            <p className="text-xl text-white/80">
+            <p className="text-xl text-muted-foreground">
               Deploy Cardinal AI Agents and unlock unprecedented efficiency across your entire organization.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="bg-accent hover:bg-accent/90 text-white shadow-glow group">
+              <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg group">
                 Get Started Today
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
+              <Button size="lg" variant="outline">
                 Schedule Demo
               </Button>
             </div>
