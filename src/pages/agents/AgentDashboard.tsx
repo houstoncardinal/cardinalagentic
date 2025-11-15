@@ -18,9 +18,14 @@ import {
   Pause,
   Settings,
   BarChart3,
-  Zap
+  Zap,
+  Bell,
+  Download
 } from "lucide-react";
 import { agents } from "@/data/agentsData";
+import { MetricsChart } from "@/components/dashboard/MetricsChart";
+import { ActivityLog } from "@/components/dashboard/ActivityLog";
+import { CostTracker } from "@/components/dashboard/CostTracker";
 
 const AgentDashboard = () => {
   const { agentId } = useParams();
@@ -50,11 +55,34 @@ const AgentDashboard = () => {
   ];
 
   const recentActivity = [
-    { time: "2 min ago", action: "Completed analysis task", status: "success" },
-    { time: "15 min ago", action: "Processed batch request", status: "success" },
-    { time: "1 hour ago", action: "Updated integration settings", status: "info" },
-    { time: "2 hours ago", action: "Automated report generation", status: "success" },
-    { time: "3 hours ago", action: "System health check", status: "success" }
+    { time: "2 min ago", action: "Completed data analysis task", status: "success" as const, details: "Processed 2,458 records successfully" },
+    { time: "15 min ago", action: "Batch request processed", status: "success" as const, details: "345 items processed in 12.3s" },
+    { time: "1 hour ago", action: "Integration settings updated", status: "info" as const, details: "Salesforce connector reconfigured" },
+    { time: "2 hours ago", action: "Automated report generation", status: "success" as const, details: "Weekly analytics report sent to stakeholders" },
+    { time: "3 hours ago", action: "System health check completed", status: "success" as const },
+    { time: "4 hours ago", action: "API rate limit warning", status: "warning" as const, details: "85% of rate limit reached" },
+    { time: "5 hours ago", action: "Integration sync completed", status: "success" as const, details: "HubSpot data synchronized" },
+    { time: "6 hours ago", action: "Performance optimization applied", status: "info" as const, details: "Query caching enabled" }
+  ];
+
+  const performanceData = [
+    { time: "00:00", value: 1200 },
+    { time: "04:00", value: 980 },
+    { time: "08:00", value: 1450 },
+    { time: "12:00", value: 1890 },
+    { time: "16:00", value: 2100 },
+    { time: "20:00", value: 1650 },
+    { time: "24:00", value: 1340 }
+  ];
+
+  const responseTimeData = [
+    { time: "Mon", value: 1.3 },
+    { time: "Tue", value: 1.1 },
+    { time: "Wed", value: 1.4 },
+    { time: "Thu", value: 1.2 },
+    { time: "Fri", value: 0.9 },
+    { time: "Sat", value: 1.0 },
+    { time: "Sun", value: 1.1 }
   ];
 
   return (
@@ -140,56 +168,74 @@ const AgentDashboard = () => {
 
             <TabsContent value="overview" className="space-y-6">
               <div className="grid lg:grid-cols-3 gap-6">
-                {/* Performance Chart */}
-                <Card className="lg:col-span-2 p-6 border-border bg-card">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-semibold text-foreground">Performance Overview</h3>
-                    <Button variant="ghost" size="sm">
-                      <BarChart3 className="h-4 w-4 mr-2" />
-                      Export
-                    </Button>
-                  </div>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span className="text-muted-foreground">Processing Efficiency</span>
-                        <span className="font-semibold text-foreground">94%</span>
-                      </div>
-                      <Progress value={94} className="h-2" />
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span className="text-muted-foreground">Integration Health</span>
-                        <span className="font-semibold text-foreground">100%</span>
-                      </div>
-                      <Progress value={100} className="h-2" />
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span className="text-muted-foreground">Resource Utilization</span>
-                        <span className="font-semibold text-foreground">67%</span>
-                      </div>
-                      <Progress value={67} className="h-2" />
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span className="text-muted-foreground">Error Recovery Rate</span>
-                        <span className="font-semibold text-foreground">99%</span>
-                      </div>
-                      <Progress value={99} className="h-2" />
-                    </div>
-                  </div>
-                </Card>
+                {/* Performance Charts */}
+                <div className="lg:col-span-2 space-y-6">
+                  <MetricsChart 
+                    title="Tasks Processed (24h)" 
+                    data={performanceData}
+                    trend="up"
+                    trendValue="+12.5%"
+                  />
+                  <MetricsChart 
+                    title="Response Time (7 days)" 
+                    data={responseTimeData}
+                    unit="s"
+                    trend="down"
+                    trendValue="-8.3%"
+                  />
+                </div>
 
-                {/* System Status */}
-                <Card className="p-6 border-border bg-card">
-                  <h3 className="text-lg font-semibold text-foreground mb-4">System Status</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Activity className="h-5 w-5 text-success" />
-                        <span className="text-sm text-foreground">Agent Core</span>
+                {/* System Status & Cost */}
+                <div className="space-y-6">
+                  <Card className="p-6 border-border bg-card">
+                    <h3 className="text-lg font-semibold text-foreground mb-4">System Status</h3>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <Activity className="h-5 w-5 text-success" />
+                          <span className="text-sm text-foreground">Agent Core</span>
+                        </div>
+                        <Badge variant="default" className="bg-success">Operational</Badge>
                       </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <Zap className="h-5 w-5 text-success" />
+                          <span className="text-sm text-foreground">Processing Engine</span>
+                        </div>
+                        <Badge variant="default" className="bg-success">Healthy</Badge>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <CheckCircle2 className="h-5 w-5 text-success" />
+                          <span className="text-sm text-foreground">Integrations</span>
+                        </div>
+                        <Badge variant="default" className="bg-success">Connected</Badge>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <Bell className="h-5 w-5 text-accent" />
+                          <span className="text-sm text-foreground">Alerts</span>
+                        </div>
+                        <Badge variant="secondary">None</Badge>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-6 pt-4 border-t border-border">
+                      <Button variant="outline" size="sm" className="w-full gap-2">
+                        <Download className="h-4 w-4" />
+                        Download Report
+                      </Button>
+                    </div>
+                  </Card>
+
+                  <CostTracker />
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="activity" className="space-y-6">
+              <ActivityLog activities={recentActivity} />
+            </TabsContent>
                       <Badge className="bg-success/10 text-success border-success/20">Healthy</Badge>
                     </div>
                     <div className="flex items-center justify-between">
@@ -222,15 +268,15 @@ const AgentDashboard = () => {
               <Card className="p-6 border-border bg-card">
                 <h3 className="text-lg font-semibold text-foreground mb-4">Recent Activity</h3>
                 <div className="space-y-4">
-                  {recentActivity.map((activity, idx) => (
+                  {recentActivity.slice(0, 5).map((activity, idx) => (
                     <div key={idx} className="flex items-start gap-4 pb-4 border-b border-border last:border-0 last:pb-0">
                       <div className={`flex h-8 w-8 items-center justify-center rounded-full ${
                         activity.status === "success" ? "bg-success/10 text-success" :
-                        activity.status === "error" ? "bg-destructive/10 text-destructive" :
-                        "bg-info/10 text-info"
+                        activity.status === "warning" ? "bg-warning/10 text-warning" :
+                        "bg-accent/10 text-accent"
                       }`}>
                         {activity.status === "success" ? <CheckCircle2 className="h-4 w-4" /> :
-                         activity.status === "error" ? <AlertCircle className="h-4 w-4" /> :
+                         activity.status === "warning" ? <AlertCircle className="h-4 w-4" /> :
                          <Clock className="h-4 w-4" />}
                       </div>
                       <div className="flex-1 min-w-0">

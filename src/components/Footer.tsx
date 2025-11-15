@@ -43,10 +43,10 @@ const footerSections = [
 const Footer = () => {
   return (
     <footer className="bg-gradient-hero border-t border-border/20">
-      <div className="container mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-12">
-          {/* Brand Section */}
-          <div className="lg:col-span-2 space-y-4">
+      <div className="container mx-auto px-4 sm:px-6 py-12 md:py-16">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-6 gap-8 md:gap-12 mb-8 md:mb-12">
+          {/* Brand Section - Full width on mobile */}
+          <div className="col-span-2 space-y-4">
             <div className="flex items-center gap-2">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent">
                 <Brain className="h-6 w-6 text-white" />
@@ -74,14 +74,14 @@ const Footer = () => {
 
           {/* Links Sections */}
           {footerSections.map((section) => (
-            <div key={section.title} className="space-y-4">
-              <h4 className="font-semibold text-white">{section.title}</h4>
-              <ul className="space-y-3">
+            <div key={section.title} className="space-y-3 md:space-y-4">
+              <h4 className="font-semibold text-white text-sm md:text-base">{section.title}</h4>
+              <ul className="space-y-2 md:space-y-3">
                 {section.links.map((link) => (
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-sm text-white/70 hover:text-white transition-colors"
+                      className="text-xs md:text-sm text-white/70 hover:text-white transition-colors"
                     >
                       {link.label}
                     </a>
