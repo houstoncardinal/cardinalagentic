@@ -5,19 +5,15 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   ArrowLeft, 
   Activity, 
   TrendingUp, 
-  Clock, 
   CheckCircle2,
-  AlertCircle,
   Play,
   Pause,
   Settings,
-  BarChart3,
   Zap,
   Bell,
   Download
@@ -62,7 +58,9 @@ const AgentDashboard = () => {
     { time: "3 hours ago", action: "System health check completed", status: "success" as const },
     { time: "4 hours ago", action: "API rate limit warning", status: "warning" as const, details: "85% of rate limit reached" },
     { time: "5 hours ago", action: "Integration sync completed", status: "success" as const, details: "HubSpot data synchronized" },
-    { time: "6 hours ago", action: "Performance optimization applied", status: "info" as const, details: "Query caching enabled" }
+    { time: "6 hours ago", action: "Performance optimization applied", status: "info" as const, details: "Query caching enabled" },
+    { time: "8 hours ago", action: "Data backup completed", status: "success" as const, details: "Automated backup successful" },
+    { time: "10 hours ago", action: "Security scan completed", status: "success" as const, details: "No vulnerabilities detected" }
   ];
 
   const performanceData = [
@@ -236,86 +234,34 @@ const AgentDashboard = () => {
             <TabsContent value="activity" className="space-y-6">
               <ActivityLog activities={recentActivity} />
             </TabsContent>
-                      <Badge className="bg-success/10 text-success border-success/20">Healthy</Badge>
+
+            <TabsContent value="analytics" className="space-y-6">
+              <Card className="p-6 border-border bg-card">
+                <h3 className="text-lg font-semibold text-foreground mb-4">Advanced Analytics</h3>
+                <p className="text-muted-foreground">
+                  Detailed analytics and insights coming soon. This section will include advanced metrics, 
+                  custom reports, and predictive analytics.
+                </p>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="integrations" className="space-y-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {agent.integrations.map((integration, idx) => (
+                  <Card key={idx} className="p-6 border-border bg-card hover:border-accent/50 transition-colors">
+                    <div className="flex items-start justify-between mb-4">
+                      <h4 className="text-lg font-semibold text-foreground">{integration}</h4>
+                      <Badge variant="default" className="bg-success">Active</Badge>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Zap className="h-5 w-5 text-success" />
-                        <span className="text-sm text-foreground">AI Model</span>
-                      </div>
-                      <Badge className="bg-success/10 text-success border-success/20">Active</Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <CheckCircle2 className="h-5 w-5 text-success" />
-                        <span className="text-sm text-foreground">Integrations</span>
-                      </div>
-                      <Badge className="bg-success/10 text-success border-success/20">Connected</Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Activity className="h-5 w-5 text-success" />
-                        <span className="text-sm text-foreground">API Gateway</span>
-                      </div>
-                      <Badge className="bg-success/10 text-success border-success/20">Operational</Badge>
-                    </div>
-                  </div>
-                </Card>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Connected and synchronized. Last sync: 2 minutes ago
+                    </p>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Configure
+                    </Button>
+                  </Card>
+                ))}
               </div>
-            </TabsContent>
-
-            <TabsContent value="activity" className="space-y-4">
-              <Card className="p-6 border-border bg-card">
-                <h3 className="text-lg font-semibold text-foreground mb-4">Recent Activity</h3>
-                <div className="space-y-4">
-                  {recentActivity.slice(0, 5).map((activity, idx) => (
-                    <div key={idx} className="flex items-start gap-4 pb-4 border-b border-border last:border-0 last:pb-0">
-                      <div className={`flex h-8 w-8 items-center justify-center rounded-full ${
-                        activity.status === "success" ? "bg-success/10 text-success" :
-                        activity.status === "warning" ? "bg-warning/10 text-warning" :
-                        "bg-accent/10 text-accent"
-                      }`}>
-                        {activity.status === "success" ? <CheckCircle2 className="h-4 w-4" /> :
-                         activity.status === "warning" ? <AlertCircle className="h-4 w-4" /> :
-                         <Clock className="h-4 w-4" />}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground">{activity.action}</p>
-                        <p className="text-xs text-muted-foreground mt-1">{activity.time}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="analytics">
-              <Card className="p-6 border-border bg-card">
-                <h3 className="text-lg font-semibold text-foreground mb-4">Analytics Dashboard</h3>
-                <div className="text-center py-12">
-                  <BarChart3 className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-muted-foreground">Advanced analytics and reporting coming soon</p>
-                </div>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="integrations">
-              <Card className="p-6 border-border bg-card">
-                <h3 className="text-lg font-semibold text-foreground mb-4">Active Integrations</h3>
-                <div className="space-y-3">
-                  {agent.integrations.map((integration, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-4 border border-border rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
-                          <CheckCircle2 className="h-5 w-5" />
-                        </div>
-                        <span className="text-sm font-medium text-foreground">{integration}</span>
-                      </div>
-                      <Badge className="bg-success/10 text-success border-success/20">Connected</Badge>
-                    </div>
-                  ))}
-                </div>
-              </Card>
             </TabsContent>
           </Tabs>
         </div>
