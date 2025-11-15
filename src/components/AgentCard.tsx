@@ -14,15 +14,16 @@ interface AgentCardProps {
 const AgentCard = ({ number, name, modality, integrations, model, delay = 0 }: AgentCardProps) => {
   return (
     <Card 
-      className="group relative overflow-hidden border-border bg-gradient-card p-6 shadow-elegant transition-all duration-300 hover:shadow-hover hover:-translate-y-1 animate-fade-in"
+      className="group relative overflow-hidden border-border bg-gradient-card p-6 shadow-elegant transition-all duration-500 hover:shadow-enterprise hover:-translate-y-2 hover:border-accent/20 animate-fade-in"
       style={{ animationDelay: `${delay}ms` }}
     >
-      <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-3xl transition-all duration-300 group-hover:bg-accent/10" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-3xl transition-all duration-500 group-hover:bg-accent/15 group-hover:w-40 group-hover:h-40" />
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
       <div className="relative space-y-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-lg">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
               {number}
             </div>
             <div>
