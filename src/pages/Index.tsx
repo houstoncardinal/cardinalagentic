@@ -1,3 +1,8 @@
+import Navigation from "@/components/Navigation";
+import TrustSection from "@/components/TrustSection";
+import FeaturesSection from "@/components/FeaturesSection";
+import EnterpriseSection from "@/components/EnterpriseSection";
+import Footer from "@/components/Footer";
 import AgentCard from "@/components/AgentCard";
 import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowRight, Shield } from "lucide-react";
@@ -162,6 +167,8 @@ const agents = [
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
+      
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-hero">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNiIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIi8+PC9nPjwvc3ZnPg==')] opacity-20" />
@@ -197,30 +204,18 @@ const Index = () => {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 border-b border-border">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="text-center space-y-2">
-              <p className="text-4xl md:text-5xl font-bold text-foreground">14</p>
-              <p className="text-muted-foreground">Specialized Agents</p>
-            </div>
-            <div className="text-center space-y-2">
-              <p className="text-4xl md:text-5xl font-bold text-foreground">3</p>
-              <p className="text-muted-foreground">AI Model Providers</p>
-            </div>
-            <div className="text-center space-y-2">
-              <p className="text-4xl md:text-5xl font-bold text-foreground">100%</p>
-              <p className="text-muted-foreground">Enterprise Ready</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <TrustSection />
+      
+      <FeaturesSection />
 
       {/* Agents Grid Section */}
-      <section className="py-24">
+      <section id="agents" className="py-24 bg-background">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center space-y-4 mb-16 animate-fade-in">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-4">
+              <Sparkles className="h-4 w-4" />
+              14 Specialized Agents
+            </div>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground">
               Meet Your AI Workforce
             </h2>
@@ -242,38 +237,33 @@ const Index = () => {
         </div>
       </section>
 
+      <EnterpriseSection />
+
       {/* CTA Section */}
-      <section className="py-24 bg-muted/30">
-        <div className="container mx-auto px-6">
+      <section id="pricing" className="py-24 bg-gradient-hero relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNiIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIi8+PC9nPjwvc3ZnPg==')] opacity-20" />
+        <div className="container mx-auto px-6 relative">
           <div className="max-w-3xl mx-auto text-center space-y-8">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
+            <h2 className="text-4xl md:text-5xl font-bold text-white">
               Ready to Transform Your Business?
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-white/80">
               Deploy Cardinal AI Agents and unlock unprecedented efficiency across your entire organization.
             </p>
-            <Button size="lg" className="bg-accent hover:bg-accent/90 text-white">
-              Get Started Today
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button size="lg" className="bg-accent hover:bg-accent/90 text-white shadow-glow group">
+                Get Started Today
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+              <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
+                Schedule Demo
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 border-t border-border">
-        <div className="container mx-auto px-6">
-          <div className="text-center space-y-4">
-            <h3 className="text-2xl font-bold text-foreground">Cardinal AI Agents</h3>
-            <p className="text-muted-foreground">
-              Enterprise-grade AI automation for modern businesses
-            </p>
-            <p className="text-sm text-muted-foreground">
-              © 2024 Cardinal AI Agents. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
