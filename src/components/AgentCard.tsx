@@ -70,16 +70,7 @@ const AgentCard = ({ number, name, modality, integrations, model, delay = 0 }: A
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-between pt-3 border-t border-border/50">
-            <div className="flex-1">
-              <p className="text-xs text-muted-foreground">
-                Powered by
-              </p>
-              <p className="text-xs font-semibold text-foreground mt-0.5">
-                {model}
-              </p>
-            </div>
-            
+          <div className="flex items-center justify-end pt-3 border-t border-border/50">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent/10 text-accent transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:scale-110">
               <ArrowUpRight className="h-4 w-4" />
             </div>
