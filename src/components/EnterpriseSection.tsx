@@ -51,19 +51,19 @@ const EnterpriseSection = () => {
             </div>
 
             <div className="relative animate-fade-in" style={{ animationDelay: "200ms" }}>
-              <div className="aspect-square rounded-2xl bg-gradient-hero p-8 shadow-enterprise">
-                <div className="h-full w-full rounded-xl bg-background/10 backdrop-blur-sm border border-white/10 p-8 flex flex-col justify-center space-y-6">
+              <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary to-accent p-8 shadow-enterprise">
+                <div className="h-full w-full rounded-xl bg-primary/90 backdrop-blur-sm border border-primary-foreground/10 p-8 flex flex-col justify-center space-y-6">
                   <div className="space-y-2">
-                    <div className="text-5xl font-bold text-white">10,000+</div>
-                    <div className="text-white/80">Active Deployments</div>
+                    <div className="text-5xl font-bold text-primary-foreground">10,000+</div>
+                    <div className="text-primary-foreground/80">Active Deployments</div>
                   </div>
                   <div className="space-y-2">
-                    <div className="text-5xl font-bold text-white">50M+</div>
-                    <div className="text-white/80">Tasks Processed Daily</div>
+                    <div className="text-5xl font-bold text-primary-foreground">50M+</div>
+                    <div className="text-primary-foreground/80">Tasks Processed Daily</div>
                   </div>
                   <div className="space-y-2">
-                    <div className="text-5xl font-bold text-white">99.9%</div>
-                    <div className="text-white/80">Customer Satisfaction</div>
+                    <div className="text-5xl font-bold text-primary-foreground">99.9%</div>
+                    <div className="text-primary-foreground/80">Customer Satisfaction</div>
                   </div>
                 </div>
               </div>
