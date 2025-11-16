@@ -22,6 +22,9 @@ import { agents } from "@/data/agentsData";
 import { MetricsChart } from "@/components/dashboard/MetricsChart";
 import { ActivityLog } from "@/components/dashboard/ActivityLog";
 import { CostTracker } from "@/components/dashboard/CostTracker";
+import { MarketResearchDashboard } from "@/components/dashboard/MarketResearchDashboard";
+import { ContentCreationDashboard } from "@/components/dashboard/ContentCreationDashboard";
+import { CRMDashboard } from "@/components/dashboard/CRMDashboard";
 
 const AgentDashboard = () => {
   const { agentId } = useParams();
@@ -82,6 +85,64 @@ const AgentDashboard = () => {
     { time: "Sat", value: 1.0 },
     { time: "Sun", value: 1.1 }
   ];
+
+  // Render agent-specific dashboard based on agent type
+  const renderAgentSpecificDashboard = () => {
+    switch (agent.number) {
+      case 1: // Market Research Agent
+        return <MarketResearchDashboard />;
+      case 4: // Content & Copywriting Agent
+      case 5: // Marketing & Social Media Agent
+        return <ContentCreationDashboard />;
+      case 10: // Client Relationship Management Agent
+        return <CRMDashboard />;
+      default:
+        // Default dashboard for other agents
+        return (
+          <>
+            <div className="grid md:grid-cols-2 gap-6">
+              <MetricsChart 
+                title="Tasks Processed (24h)"
+                data={performanceData}
+                unit="tasks"
+                trend="up"
+                trendValue="+12.5%"
+              />
+              <MetricsChart 
+                title="Response Time (7d)"
+                data={responseTimeData}
+                unit="s"
+                trend="down"
+                trendValue="-15%"
+              />
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card className="md:col-span-2">
+                <div className="p-6">
+                  <h3 className="font-semibold mb-2">System Status</h3>
+                  <div className="space-y-3">
+                    {[
+                      { name: "API Connection", status: "Healthy", color: "bg-success" },
+                      { name: "Processing Queue", status: "Normal", color: "bg-success" },
+                      { name: "Integration Sync", status: "Active", color: "bg-success" }
+                    ].map((item, idx) => (
+                      <div key={idx} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                        <span className="text-sm">{item.name}</span>
+                        <div className="flex items-center gap-2">
+                          <div className={`h-2 w-2 rounded-full ${item.color}`} />
+                          <span className="text-sm text-muted-foreground">{item.status}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+              <CostTracker />
+            </div>
+          </>
+        );
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">

@@ -16,6 +16,9 @@ import {
   Eye
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { WorkflowRecommendations } from "@/components/workflow/WorkflowRecommendations";
+import { WorkflowVersioning } from "@/components/workflow/WorkflowVersioning";
+import { WorkflowAnalytics } from "@/components/workflow/WorkflowAnalytics";
 
 interface WorkflowNode {
   id: string;
@@ -242,12 +245,12 @@ const WorkflowCanvas = () => {
         {/* Properties Panel */}
         <Card className="p-4">
           <Tabs defaultValue="properties">
-            <TabsList className="w-full">
-              <TabsTrigger value="properties" className="flex-1">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="properties">
                 <Settings className="h-4 w-4 mr-2" />
                 Props
               </TabsTrigger>
-              <TabsTrigger value="data" className="flex-1">
+              <TabsTrigger value="data">
                 <Database className="h-4 w-4 mr-2" />
                 Data
               </TabsTrigger>
@@ -329,6 +332,49 @@ const WorkflowCanvas = () => {
               </div>
             </TabsContent>
           </Tabs>
+        </Card>
+      </div>
+
+      {/* AI Recommendations & Analytics Section */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        <Card className="lg:col-span-2 p-6">
+          <Tabs defaultValue="recommendations">
+            <TabsList className="grid w-full grid-cols-3 mb-6">
+              <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              <TabsTrigger value="versions">Versions</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="recommendations">
+              <WorkflowRecommendations />
+            </TabsContent>
+
+            <TabsContent value="analytics">
+              <WorkflowAnalytics />
+            </TabsContent>
+
+            <TabsContent value="versions">
+              <WorkflowVersioning />
+            </TabsContent>
+          </Tabs>
+        </Card>
+
+        <Card className="p-6">
+          <h3 className="font-semibold text-lg mb-4">Workflow Insights</h3>
+          <div className="space-y-4">
+            <div className="p-4 bg-success/10 border border-success/20 rounded-lg">
+              <p className="text-sm font-medium text-success mb-1">Optimization Available</p>
+              <p className="text-xs text-muted-foreground">Add caching to reduce execution time by 15%</p>
+            </div>
+            <div className="p-4 bg-info/10 border border-info/20 rounded-lg">
+              <p className="text-sm font-medium text-info mb-1">High Performance</p>
+              <p className="text-xs text-muted-foreground">This workflow is running 23% faster than average</p>
+            </div>
+            <div className="p-4 bg-warning/10 border border-warning/20 rounded-lg">
+              <p className="text-sm font-medium text-warning mb-1">Version Outdated</p>
+              <p className="text-xs text-muted-foreground">2 nodes have updates available</p>
+            </div>
+          </div>
         </Card>
       </div>
     </div>
