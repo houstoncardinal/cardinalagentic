@@ -14,17 +14,17 @@ const integrations = [
 
 const IntegrationShowcase = () => {
   return (
-    <section className="py-24 bg-muted/30 relative overflow-hidden">
+    <section className="py-12 sm:py-16 md:py-24 bg-muted/30 relative overflow-hidden">
       {/* Animated grid background */}
       <div className="absolute inset-0 bg-grid-pattern opacity-5" />
       
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <ScrollAnimation>
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-foreground">
               Seamless Integration Ecosystem
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
               Connect with any tool in your tech stack. Our AI agents integrate with 100+ platforms out of the box.
             </p>
           </div>
@@ -56,15 +56,15 @@ const IntegrationShowcase = () => {
             </ScrollAnimation>
 
             {/* Integration cards in a circular layout */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {integrations.map((integration, index) => (
                 <ScrollAnimation key={integration.name} delay={index * 100}>
                   <div className="group relative">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl blur-xl group-hover:blur-2xl transition-all opacity-0 group-hover:opacity-100" />
-                    <div className="relative p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-hover">
-                      <integration.icon className="w-12 h-12 text-primary mb-4 group-hover:scale-110 transition-transform" />
-                      <h3 className="font-bold text-lg mb-2 text-foreground">{integration.name}</h3>
-                      <p className="text-sm text-muted-foreground">{integration.description}</p>
+                    <div className="relative p-4 sm:p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-hover">
+                      <integration.icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-primary mb-3 sm:mb-4 group-hover:scale-110 transition-transform" />
+                      <h3 className="font-bold text-sm sm:text-base md:text-lg mb-1 sm:mb-2 text-foreground">{integration.name}</h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground">{integration.description}</p>
                     </div>
                   </div>
                 </ScrollAnimation>

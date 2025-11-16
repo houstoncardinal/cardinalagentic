@@ -33,10 +33,10 @@ const Auth = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <div className="container mx-auto px-6 py-12 md:py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
           {/* Left Side - Marketing Content */}
-          <div className="space-y-8 animate-fade-in">
+          <div className="space-y-6 sm:space-y-8 animate-fade-in hidden lg:block">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/5 border border-accent/10 text-accent text-sm font-semibold">
               <Sparkles className="h-4 w-4" />
               Start Your Automation Journey
@@ -95,11 +95,11 @@ const Auth = () => {
           </div>
 
           {/* Right Side - Auth Forms */}
-          <Card className="p-8 border-border bg-card shadow-xl">
+          <Card className="p-4 sm:p-6 md:p-8 border-border bg-card shadow-xl">
             <Tabs defaultValue="signup" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8">
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
-                <TabsTrigger value="login">Log In</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 mb-6 sm:mb-8">
+                <TabsTrigger value="signup" className="text-sm sm:text-base">Sign Up</TabsTrigger>
+                <TabsTrigger value="login" className="text-sm sm:text-base">Log In</TabsTrigger>
               </TabsList>
 
               {/* Sign Up Form */}

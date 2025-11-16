@@ -42,17 +42,17 @@ const workflowSteps = [
 
 const AgentWorkflow = () => {
   return (
-    <section className="py-24 bg-gradient-to-b from-background via-muted/30 to-background relative overflow-hidden">
+    <section className="py-12 sm:py-16 md:py-24 bg-gradient-to-b from-background via-muted/30 to-background relative overflow-hidden">
       {/* Animated background gradient */}
       <div className="absolute inset-0 bg-gradient-mesh opacity-10 animate-pulse" style={{ animationDuration: '10s' }} />
       
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <ScrollAnimation>
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-hero bg-clip-text text-transparent">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-hero bg-clip-text text-transparent">
               How Our AI Agents Work Together
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
               Experience the power of coordinated AI agents working in harmony to deliver exceptional results
             </p>
           </div>

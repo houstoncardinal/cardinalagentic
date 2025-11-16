@@ -36,18 +36,18 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section id="features" className="py-24 bg-gradient-feature">
-      <div className="container mx-auto px-6">
-        <div className="max-w-3xl mx-auto text-center space-y-4 mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground">
+    <section id="features" className="py-12 sm:py-16 md:py-24 bg-gradient-feature">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="max-w-3xl mx-auto text-center space-y-3 sm:space-y-4 mb-12 sm:mb-16 animate-fade-in">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
             Enterprise-Grade Platform
           </h2>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-4">
             Built for scale, designed for performance, trusted by leading organizations
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
           {features.map((feature, idx) => (
             <Card
               key={feature.title}

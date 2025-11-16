@@ -25,22 +25,22 @@ const trustIndicators = [
 
 const TrustSection = () => {
   return (
-    <section className="py-16 border-b border-border bg-muted/30">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+    <section className="py-8 sm:py-12 md:py-16 border-b border-border bg-muted/30">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
           {trustIndicators.map((item, idx) => (
             <div
               key={item.label}
-              className="text-center space-y-3 animate-fade-in"
+              className="text-center space-y-2 sm:space-y-3 animate-fade-in"
               style={{ animationDelay: `${idx * 100}ms` }}
             >
               <div className="flex justify-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10 text-accent">
-                  <item.icon className="h-6 w-6" />
+                <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                  <item.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
               </div>
               <div>
-                <p className="font-semibold text-foreground text-sm">{item.label}</p>
+                <p className="font-semibold text-foreground text-xs sm:text-sm">{item.label}</p>
                 <p className="text-xs text-muted-foreground mt-1">{item.description}</p>
               </div>
             </div>
