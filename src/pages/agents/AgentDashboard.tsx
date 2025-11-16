@@ -35,8 +35,8 @@ const AgentDashboard = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="container mx-auto px-6 py-24 text-center">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Dashboard Not Found</h1>
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-24 text-center">
+        <h1 className="text-2xl sm:text-4xl font-bold text-foreground mb-4">Dashboard Not Found</h1>
           <Link to="/">
             <Button variant="outline">Back to Home</Button>
           </Link>
@@ -150,39 +150,42 @@ const AgentDashboard = () => {
       
       {/* Dashboard Header */}
       <section className="border-b border-border bg-muted/30">
-        <div className="container mx-auto px-6 py-6">
+        <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 sm:gap-4">
               <Link to={`/agent/${agent.number}`} className="text-muted-foreground hover:text-foreground transition-colors">
-                <ArrowLeft className="h-5 w-5" />
+                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
               </Link>
               <div>
-                <div className="flex items-center gap-3 mb-1">
-                  <h1 className="text-2xl font-bold text-foreground">{agent.name}</h1>
-                  <Badge variant={isRunning ? "default" : "secondary"} className={isRunning ? "bg-success text-white" : ""}>
+                <div className="flex items-center gap-2 sm:gap-3 mb-1">
+                  <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground">{agent.name}</h1>
+                  <Badge variant={isRunning ? "default" : "secondary"} className={`text-xs ${isRunning ? "bg-success text-white" : ""}`}>
                     {isRunning ? "Active" : "Paused"}
                   </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground">Agent #{agent.number} • {agent.model}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Agent #{agent.number} • {agent.model}</p>
               </div>
             </div>
             
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setIsRunning(!isRunning)}
                 className="gap-2"
               >
-                {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                {isRunning ? "Pause" : "Start"}
+                {isRunning ? <Pause className="h-3 w-3 sm:h-4 sm:w-4" /> : <Play className="h-3 w-3 sm:h-4 sm:w-4" />}
+                <span className="text-xs sm:text-sm">{isRunning ? "Pause" : "Start"}</span>
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="hidden sm:flex">
                 <Settings className="h-4 w-4 mr-2" />
                 Configure
               </Button>
-              <Button size="sm" className="bg-accent hover:bg-accent/90">
-                License Agent
+              <Button variant="outline" size="sm" className="sm:hidden">
+                <Settings className="h-4 w-4" />
+              </Button>
+              <Button size="sm" className="bg-accent hover:bg-accent/90 text-xs sm:text-sm">
+                License
               </Button>
             </div>
           </div>

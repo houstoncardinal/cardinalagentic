@@ -25,8 +25,8 @@ const AgentDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="container mx-auto px-6 py-24 text-center">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Agent Not Found</h1>
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-24 text-center">
+        <h1 className="text-2xl sm:text-4xl font-bold text-foreground mb-4">Agent Not Found</h1>
           <Link to="/">
             <Button variant="outline">Back to Home</Button>
           </Link>
@@ -72,34 +72,35 @@ const AgentDetail = () => {
       
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-border bg-gradient-mesh">
-        <div className="container mx-auto px-6 py-16 md:py-24">
+        <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16 lg:py-24">
           <div className="max-w-4xl">
-            <Link to="/#agents" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
-              <ArrowLeft className="h-4 w-4" />
-              Back to All Agents
+            <Link to="/#agents" className="inline-flex items-center gap-2 text-xs sm:text-sm text-muted-foreground hover:text-foreground mb-4 sm:mb-6 transition-colors">
+              <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Back to All Agents</span>
+              <span className="sm:hidden">Back</span>
             </Link>
             
-            <Badge className="mb-4 bg-accent/10 text-accent border-accent/20">
+            <Badge className="mb-3 sm:mb-4 bg-accent/10 text-accent border-accent/20 text-xs">
               Agent #{agent.number}
             </Badge>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
               {agent.name}
             </h1>
             
-            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 leading-relaxed">
               Specialized AI agent designed for {agent.name.toLowerCase()} with advanced {agent.modality.toLowerCase()} capabilities, 
               powered by {agent.model} for optimal performance and accuracy.
             </p>
             
-            <div className="flex flex-wrap gap-4">
-              <Link to={`/agent/${agent.number}/dashboard`}>
-                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground group">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+              <Link to={`/agent/${agent.number}/dashboard`} className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground group">
                   Launch Dashboard
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto">
                 Request Demo
               </Button>
             </div>
@@ -108,9 +109,9 @@ const AgentDetail = () => {
       </section>
 
       {/* Technical Specs */}
-      <section className="py-16 border-b border-border bg-muted/30">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl">
+      <section className="py-8 sm:py-12 md:py-16 border-b border-border bg-muted/30">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl">
             <Card className="p-6 border-border bg-card">
               <div className="flex items-center gap-3 mb-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent">
