@@ -6,7 +6,7 @@ import EnterpriseSection from "@/components/EnterpriseSection";
 import Footer from "@/components/Footer";
 import AgentCard from "@/components/AgentCard";
 import { Button } from "@/components/ui/button";
-import { Sparkles, ArrowRight, Shield } from "lucide-react";
+import { Sparkles, ArrowRight, Shield, Brain } from "lucide-react";
 import { agents } from "@/data/agentsData";
 
 const Index = () => {
@@ -186,30 +186,73 @@ const Index = () => {
       <FeaturesSection />
 
       {/* Agents Grid Section */}
-      <section id="agents" className="py-24 bg-background">
-        <div className="container mx-auto px-6">
-          <div className="max-w-3xl mx-auto text-center space-y-4 mb-16 animate-fade-in">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium mb-4">
-              <Sparkles className="h-4 w-4" />
-              14 Specialized Agents
+      <section id="agents" className="relative py-20 sm:py-24 lg:py-32 bg-background border-b border-border overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.02]" />
+        <div className="absolute top-1/4 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        
+        <div className="container mx-auto px-4 sm:px-6 relative">
+          {/* Section Header */}
+          <div className="text-center mb-12 sm:mb-16 lg:mb-20 space-y-4 sm:space-y-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-semibold mb-4">
+              <Brain className="h-4 w-4" />
+              Enterprise AI Workforce
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
-              Meet Your AI Workforce
+            
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground leading-tight tracking-tight">
+              Meet Your{" "}
+              <span className="text-accent">AI Workforce</span>
             </h2>
-            <p className="text-xl text-muted-foreground leading-relaxed">
-              Each agent is purpose-built for specific business functions, powered by cutting-edge AI models, 
-              and designed to integrate seamlessly with your existing systems.
+            
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              14 specialized agents orchestrated to transform your enterprise operations through intelligent automation and seamless collaboration
             </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {agents.map((agent, idx) => (
-              <AgentCard 
-                key={agent.number} 
-                {...agent} 
-                delay={idx * 50}
+            {/* Stats Bar */}
+            <div className="flex flex-wrap justify-center gap-6 sm:gap-8 lg:gap-12 pt-6 sm:pt-8">
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent mb-1">14</div>
+                <div className="text-xs sm:text-sm text-muted-foreground font-medium">Specialized Agents</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent mb-1">50+</div>
+                <div className="text-xs sm:text-sm text-muted-foreground font-medium">Integrations</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent mb-1">24/7</div>
+                <div className="text-xs sm:text-sm text-muted-foreground font-medium">Autonomous</div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Agents Grid */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+            {agents.map((agent, index) => (
+              <AgentCard
+                key={agent.number}
+                {...agent}
+                delay={index * 50}
               />
             ))}
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="mt-12 sm:mt-16 lg:mt-20 text-center">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 sm:p-8 rounded-2xl bg-gradient-card border border-border shadow-elegant">
+              <div className="flex-1 text-left">
+                <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2">
+                  Ready to Deploy Your AI Workforce?
+                </h3>
+                <p className="text-sm sm:text-base text-muted-foreground">
+                  Start automating complex workflows today with our enterprise platform
+                </p>
+              </div>
+              <Button size="lg" className="bg-accent hover:bg-accent/90 text-white shadow-glow-accent whitespace-nowrap">
+                Get Started
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </section>
