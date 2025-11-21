@@ -1,0 +1,4 @@
+project_id = "whxdoewzjkhvdqrwtzwc"
+
+[functions.run-agent-task]
+verify_jwt = true
