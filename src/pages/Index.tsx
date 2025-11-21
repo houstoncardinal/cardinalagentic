@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import TrustSection from "@/components/TrustSection";
 import FeaturesSection from "@/components/FeaturesSection";
@@ -8,11 +8,29 @@ import AgentCard from "@/components/AgentCard";
 import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowRight, Shield, Brain } from "lucide-react";
 import { agents } from "@/data/agentsData";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { User } from "@supabase/supabase-js";
 
 const Index = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      <Navigation user={user} />
       
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-border bg-gradient-mesh">

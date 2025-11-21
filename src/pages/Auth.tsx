@@ -1,256 +1,214 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import Navigation from "@/components/Navigation";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sparkles, ArrowRight, Shield, Zap, CheckCircle2 } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { Bot, CheckCircle2, Shield, Zap } from "lucide-react";
 
 const Auth = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [isLogin, setIsLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // Simulate signup
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  };
+  useEffect(() => {
+    // Check if user is already logged in
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        navigate("/");
+      }
+    });
 
-  const handleLogin = async (e: React.FormEvent) => {
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        navigate("/");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    // Simulate login
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    setLoading(true);
+
+    try {
+      if (isLogin) {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (error) throw error;
+        toast({
+          title: "Welcome back!",
+          description: "Successfully logged in.",
+        });
+      } else {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: fullName,
+            },
+            emailRedirectTo: `${window.location.origin}/`,
+          },
+        });
+        if (error) throw error;
+        toast({
+          title: "Account created!",
+          description: "Welcome to Cardinal Agentic.",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
-          {/* Left Side - Marketing Content */}
-          <div className="space-y-6 sm:space-y-8 animate-fade-in hidden lg:block">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/5 border border-accent/10 text-accent text-sm font-semibold">
-              <Sparkles className="h-4 w-4" />
-              Start Your Automation Journey
-            </div>
-            
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
-              Join 500+ Companies{" "}
-              <span className="text-accent">Automating with AI</span>
-            </h1>
-            
-            <p className="text-lg text-muted-foreground">
-              Get started in minutes. No credit card required. Deploy your first AI agent today.
-            </p>
+    <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
+      <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
+        {/* Left Side - Marketing Content */}
+        <div className="space-y-8 animate-fade-in hidden lg:block">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/5 border border-accent/10 text-accent text-sm font-semibold">
+            Start Your Automation Journey
+          </div>
+          
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
+            Join 500+ Companies{" "}
+            <span className="text-accent">Automating with AI</span>
+          </h1>
+          
+          <p className="text-lg text-muted-foreground">
+            Get started in minutes. No credit card required. Deploy your first AI agent today.
+          </p>
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 text-accent">
-                  <CheckCircle2 className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Instant Setup</h3>
-                  <p className="text-sm text-muted-foreground">Launch your first agent in under 5 minutes</p>
-                </div>
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 text-accent">
+                <CheckCircle2 className="h-5 w-5" />
               </div>
-
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 text-accent">
-                  <Shield className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Enterprise Security</h3>
-                  <p className="text-sm text-muted-foreground">SOC 2 Type II certified with end-to-end encryption</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 text-accent">
-                  <Zap className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">14-Day Free Trial</h3>
-                  <p className="text-sm text-muted-foreground">Full access to all features, cancel anytime</p>
-                </div>
+              <div>
+                <h3 className="font-semibold text-foreground">Instant Setup</h3>
+                <p className="text-sm text-muted-foreground">Launch your first agent in under 5 minutes</p>
               </div>
             </div>
 
-            <div className="pt-6 border-t border-border">
-              <p className="text-sm text-muted-foreground mb-4">Trusted by leading companies</p>
-              <div className="flex flex-wrap gap-6 items-center opacity-60">
-                <span className="text-lg font-bold">Microsoft</span>
-                <span className="text-lg font-bold">Salesforce</span>
-                <span className="text-lg font-bold">Oracle</span>
-                <span className="text-lg font-bold">SAP</span>
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 text-accent">
+                <Shield className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground">Enterprise Security</h3>
+                <p className="text-sm text-muted-foreground">SOC 2 Type II certified with end-to-end encryption</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 text-accent">
+                <Zap className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground">14-Day Free Trial</h3>
+                <p className="text-sm text-muted-foreground">Full access to all features, cancel anytime</p>
               </div>
             </div>
           </div>
-
-          {/* Right Side - Auth Forms */}
-          <Card className="p-4 sm:p-6 md:p-8 border-border bg-card shadow-xl">
-            <Tabs defaultValue="signup" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6 sm:mb-8">
-                <TabsTrigger value="signup" className="text-sm sm:text-base">Sign Up</TabsTrigger>
-                <TabsTrigger value="login" className="text-sm sm:text-base">Log In</TabsTrigger>
-              </TabsList>
-
-              {/* Sign Up Form */}
-              <TabsContent value="signup">
-                <form onSubmit={handleSignUp} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-name">Full Name</Label>
-                    <Input 
-                      id="signup-name" 
-                      placeholder="John Doe" 
-                      required 
-                      className="bg-background"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-email">Work Email</Label>
-                    <Input 
-                      id="signup-email" 
-                      type="email" 
-                      placeholder="john@company.com" 
-                      required 
-                      className="bg-background"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-company">Company Name</Label>
-                    <Input 
-                      id="signup-company" 
-                      placeholder="Your Company" 
-                      required 
-                      className="bg-background"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-password">Password</Label>
-                    <Input 
-                      id="signup-password" 
-                      type="password" 
-                      placeholder="••••••••" 
-                      required 
-                      className="bg-background"
-                    />
-                  </div>
-
-                  <div className="flex items-start gap-2 pt-2">
-                    <input 
-                      type="checkbox" 
-                      id="terms" 
-                      required 
-                      className="mt-1"
-                    />
-                    <label htmlFor="terms" className="text-xs text-muted-foreground">
-                      I agree to the Terms of Service and Privacy Policy
-                    </label>
-                  </div>
-
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-accent hover:bg-accent/90" 
-                    size="lg"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Creating Account..." : "Create Account"}
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-
-                  <div className="relative my-6">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-border" />
-                    </div>
-                    <div className="relative flex justify-center text-xs">
-                      <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <Button variant="outline" type="button" className="w-full">
-                      Google
-                    </Button>
-                    <Button variant="outline" type="button" className="w-full">
-                      Microsoft
-                    </Button>
-                  </div>
-                </form>
-              </TabsContent>
-
-              {/* Login Form */}
-              <TabsContent value="login">
-                <form onSubmit={handleLogin} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="login-email">Email</Label>
-                    <Input 
-                      id="login-email" 
-                      type="email" 
-                      placeholder="john@company.com" 
-                      required 
-                      className="bg-background"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="login-password">Password</Label>
-                      <Link to="/forgot-password" className="text-xs text-accent hover:underline">
-                        Forgot password?
-                      </Link>
-                    </div>
-                    <Input 
-                      id="login-password" 
-                      type="password" 
-                      placeholder="••••••••" 
-                      required 
-                      className="bg-background"
-                    />
-                  </div>
-
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-accent hover:bg-accent/90" 
-                    size="lg"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Signing In..." : "Sign In"}
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-
-                  <div className="relative my-6">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-border" />
-                    </div>
-                    <div className="relative flex justify-center text-xs">
-                      <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <Button variant="outline" type="button" className="w-full">
-                      Google
-                    </Button>
-                    <Button variant="outline" type="button" className="w-full">
-                      Microsoft
-                    </Button>
-                  </div>
-                </form>
-              </TabsContent>
-            </Tabs>
-          </Card>
         </div>
+
+        {/* Right Side - Auth Form */}
+        <Card className="w-full p-8 space-y-6 bg-card/95 backdrop-blur">
+          <div className="text-center space-y-2">
+            <div className="flex justify-center mb-4">
+              <Bot className="h-12 w-12 text-accent" />
+            </div>
+            <h1 className="text-3xl font-bold">
+              <span className="text-foreground">Cardinal</span>{" "}
+              <span className="text-accent">Agentic</span>
+            </h1>
+            <p className="text-muted-foreground">
+              {isLogin ? "Sign in to your account" : "Create your account"}
+            </p>
+          </div>
+
+          <form onSubmit={handleAuth} className="space-y-4">
+            {!isLogin && (
+              <div className="space-y-2">
+                <label htmlFor="fullName" className="text-sm font-medium">
+                  Full Name
+                </label>
+                <Input
+                  id="fullName"
+                  type="text"
+                  placeholder="John Doe"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required={!isLogin}
+                />
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm font-medium">
+                Email
+              </label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="password" className="text-sm font-medium">
+                Password
+              </label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={loading}
+            >
+              {loading ? "Loading..." : isLogin ? "Sign In" : "Sign Up"}
+            </Button>
+          </form>
+
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => setIsLogin(!isLogin)}
+              className="text-sm text-accent hover:underline"
+            >
+              {isLogin
+                ? "Don't have an account? Sign up"
+                : "Already have an account? Sign in"}
+            </button>
+          </div>
+        </Card>
       </div>
     </div>
   );

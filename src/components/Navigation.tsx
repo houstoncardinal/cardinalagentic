@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Brain, Menu } from "lucide-react";
+import { Menu, LogOut } from "lucide-react";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { supabase } from "@/integrations/supabase/client";
+import { User } from "@supabase/supabase-js";
+import { useToast } from "@/hooks/use-toast";
 
 const navLinks = [
   { label: "Agents", href: "#agents" },
@@ -10,8 +14,23 @@ const navLinks = [
   { label: "Pricing", href: "#pricing" },
 ];
 
-const Navigation = () => {
+interface NavigationProps {
+  user?: User | null;
+}
+
+const Navigation = ({ user }: NavigationProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    toast({
+      title: "Signed out",
+      description: "You have been successfully signed out.",
+    });
+    navigate("/");
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -39,10 +58,28 @@ const Navigation = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost">Sign In</Button>
-            <Button className="bg-accent hover:bg-accent/90 text-white">
-              Get Started
-            </Button>
+            {user ? (
+              <>
+                <Link to="/agents/1/dashboard">
+                  <Button variant="ghost">Dashboard</Button>
+                </Link>
+                <Button variant="ghost" onClick={handleSignOut}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/auth">
+                  <Button variant="ghost">Sign In</Button>
+                </Link>
+                <Link to="/auth">
+                  <Button className="bg-accent hover:bg-accent/90 text-white">
+                    Get Started
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Navigation */}
@@ -65,10 +102,28 @@ const Navigation = () => {
                   </a>
                 ))}
                 <div className="flex flex-col gap-3 pt-4 border-t">
-                  <Button variant="outline" className="w-full">Sign In</Button>
-                  <Button className="w-full bg-accent hover:bg-accent/90 text-white">
-                    Get Started
-                  </Button>
+                  {user ? (
+                    <>
+                      <Link to="/agents/1/dashboard" className="w-full">
+                        <Button variant="outline" className="w-full">Dashboard</Button>
+                      </Link>
+                      <Button variant="outline" className="w-full" onClick={handleSignOut}>
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Sign Out
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/auth" className="w-full">
+                        <Button variant="outline" className="w-full">Sign In</Button>
+                      </Link>
+                      <Link to="/auth" className="w-full">
+                        <Button className="w-full bg-accent hover:bg-accent/90 text-white">
+                          Get Started
+                        </Button>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </SheetContent>
