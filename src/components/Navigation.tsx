@@ -8,10 +8,11 @@ import { User } from "@supabase/supabase-js";
 import { useToast } from "@/hooks/use-toast";
 
 const navLinks = [
-  { label: "Agents", href: "#agents" },
-  { label: "Features", href: "#features" },
-  { label: "Enterprise", href: "#enterprise" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Agents", href: "/agents" },
+  { label: "Features", href: "/features" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Enterprise", href: "/enterprise" },
+  { label: "Resources", href: "/resources" },
 ];
 
 interface NavigationProps {
@@ -47,13 +48,13 @@ const Navigation = ({ user }: NavigationProps) => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
-                href={link.href}
+                to={link.href}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -92,14 +93,14 @@ const Navigation = ({ user }: NavigationProps) => {
             <SheetContent side="right" className="w-[300px]">
               <div className="flex flex-col gap-6 mt-8">
                 {navLinks.map((link) => (
-                  <a
+                  <Link
                     key={link.label}
-                    href={link.href}
+                    to={link.href}
                     onClick={() => setIsOpen(false)}
                     className="text-lg font-medium text-foreground hover:text-accent transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ))}
                 <div className="flex flex-col gap-3 pt-4 border-t">
                   {user ? (

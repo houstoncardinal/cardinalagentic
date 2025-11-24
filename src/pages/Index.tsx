@@ -13,6 +13,8 @@ import { agents } from "@/data/agentsData";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
+import AgentWorkflow from "@/components/AgentWorkflow";
+import ScrollAnimation from "@/components/ScrollAnimation";
 
 const Index = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -239,75 +241,56 @@ const Index = () => {
       
       <FeaturesSection />
 
+      <AgentWorkflow />
+
       {/* Agents Grid Section */}
       <section id="agents" className="relative py-20 sm:py-24 lg:py-32 bg-background border-b border-border overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.02]" />
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" />
         
         <div className="container mx-auto px-4 sm:px-6 relative">
           {/* Section Header */}
-          <div className="text-center mb-12 sm:mb-16 lg:mb-20 space-y-4 sm:space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-semibold mb-4">
-              <Brain className="h-4 w-4" />
-              Enterprise AI Workforce
+          <ScrollAnimation>
+            <div className="text-center mb-12 sm:mb-16 lg:mb-20 space-y-4 sm:space-y-6">
+...
             </div>
-            
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground leading-tight tracking-tight">
-              Meet Your{" "}
-              <span className="text-accent">AI Workforce</span>
-            </h2>
-            
-            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              14 specialized agents orchestrated to transform your enterprise operations through intelligent automation and seamless collaboration
-            </p>
-
-            {/* Stats Bar */}
-            <div className="flex flex-wrap justify-center gap-6 sm:gap-8 lg:gap-12 pt-6 sm:pt-8">
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent mb-1">14</div>
-                <div className="text-xs sm:text-sm text-muted-foreground font-medium">Specialized Agents</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent mb-1">50+</div>
-                <div className="text-xs sm:text-sm text-muted-foreground font-medium">Integrations</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent mb-1">24/7</div>
-                <div className="text-xs sm:text-sm text-muted-foreground font-medium">Autonomous</div>
-              </div>
-            </div>
-          </div>
+          </ScrollAnimation>
           
           {/* Agents Grid */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
             {agents.map((agent, index) => (
-              <AgentCard
-                key={agent.number}
-                {...agent}
-                delay={index * 50}
-              />
+              <ScrollAnimation key={agent.number} delay={index * 50}>
+                <AgentCard
+                  {...agent}
+                  delay={0}
+                />
+              </ScrollAnimation>
             ))}
           </div>
 
           {/* Bottom CTA */}
-          <div className="mt-12 sm:mt-16 lg:mt-20 text-center">
-            <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 sm:p-8 rounded-2xl bg-gradient-card border border-border shadow-elegant">
-              <div className="flex-1 text-left">
-                <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2">
-                  Ready to Deploy Your AI Workforce?
-                </h3>
-                <p className="text-sm sm:text-base text-muted-foreground">
-                  Start automating complex workflows today with our enterprise platform
-                </p>
+          <ScrollAnimation delay={200}>
+            <div className="mt-12 sm:mt-16 lg:mt-20 text-center">
+              <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 sm:p-8 rounded-2xl bg-gradient-card border border-border shadow-elegant hover:shadow-enterprise transition-all duration-500">
+                <div className="flex-1 text-left">
+                  <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2">
+                    Ready to Deploy Your AI Workforce?
+                  </h3>
+                  <p className="text-sm sm:text-base text-muted-foreground">
+                    Start automating complex workflows today with our enterprise platform
+                  </p>
+                </div>
+                <Link to="/auth">
+                  <Button size="lg" className="bg-accent hover:bg-accent/90 text-white shadow-glow-accent whitespace-nowrap group">
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
               </div>
-              <Button size="lg" className="bg-accent hover:bg-accent/90 text-white shadow-glow-accent whitespace-nowrap">
-                Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
             </div>
-          </div>
+          </ScrollAnimation>
         </div>
       </section>
 
