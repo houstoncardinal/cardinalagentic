@@ -1,129 +1,137 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, DollarSign, TrendingUp, Calendar, Phone, Mail } from "lucide-react";
+import { Users, Phone, Mail, Calendar, Play, UserPlus } from "lucide-react";
+import { TaskExecutionDialog } from "./TaskExecutionDialog";
+import { RecentTasks } from "./RecentTasks";
+import { AgentAnalytics } from "./AgentAnalytics";
 
 export const CRMDashboard = () => {
-  const metrics = [
-    { label: "Active Clients", value: "1,234", icon: Users, trend: "+8.2%" },
-    { label: "Pipeline Value", value: "$2.4M", icon: DollarSign, trend: "+15.3%" },
-    { label: "Conversion Rate", value: "24.5%", icon: TrendingUp, trend: "+3.1%" },
-    { label: "Meetings Scheduled", value: "47", icon: Calendar, trend: "+12%" }
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const taskTypes = [
+    "Client Outreach",
+    "Follow-up Email",
+    "Meeting Scheduler",
+    "Lead Qualification",
+    "Proposal Generation",
+    "Client Report",
+    "Relationship Analysis",
+    "Pipeline Management"
   ];
 
-  const recentActivity = [
-    { client: "Acme Corp", action: "Meeting scheduled", type: "meeting", time: "10 min ago" },
-    { client: "TechStart Inc", action: "Proposal sent", type: "proposal", time: "1 hour ago" },
-    { client: "Global Solutions", action: "Contract signed", type: "success", time: "2 hours ago" }
-  ];
-
-  const topClients = [
-    { name: "Enterprise Corp", revenue: "$450K", status: "active", satisfaction: 98 },
-    { name: "Innovation Labs", revenue: "$380K", status: "active", satisfaction: 95 },
-    { name: "Digital Ventures", revenue: "$320K", status: "at-risk", satisfaction: 72 }
+  const capabilities = [
+    "Automated client communication",
+    "Meeting scheduling & reminders",
+    "Lead scoring & qualification",
+    "Proposal & contract generation",
+    "Client sentiment analysis",
+    "Pipeline tracking & forecasting",
+    "Follow-up automation",
+    "Relationship health monitoring"
   ];
 
   return (
     <div className="space-y-6">
-      <div className="grid md:grid-cols-4 gap-4">
-        {metrics.map((metric, idx) => {
-          const Icon = metric.icon;
-          return (
-            <Card key={idx} className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Icon className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{metric.value}</p>
-                  <p className="text-xs text-muted-foreground">{metric.label}</p>
-                  <Badge variant="outline" className="bg-success/10 text-success mt-1">
-                    {metric.trend}
-                  </Badge>
-                </div>
-              </div>
-            </Card>
-          );
-        })}
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-4">
-        <Card className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-lg">Recent Activity</h3>
-            <Button variant="outline" size="sm">View All</Button>
-          </div>
-          <div className="space-y-3">
-            {recentActivity.map((activity, idx) => (
-              <div key={idx} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                <div className="space-y-1">
-                  <p className="font-medium text-sm">{activity.client}</p>
-                  <p className="text-xs text-muted-foreground">{activity.action}</p>
-                </div>
-                <div className="text-right">
-                  <Badge variant="outline" className={
-                    activity.type === "success" ? "bg-success/10 text-success" :
-                    activity.type === "meeting" ? "bg-info/10 text-info" :
-                    "bg-warning/10 text-warning"
-                  }>
-                    {activity.type}
-                  </Badge>
-                  <p className="text-xs text-muted-foreground mt-1">{activity.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-
-        <Card className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-lg">Top Clients</h3>
-            <Button variant="outline" size="sm">Manage</Button>
-          </div>
-          <div className="space-y-3">
-            {topClients.map((client, idx) => (
-              <div key={idx} className="p-4 border border-border rounded-lg space-y-2">
-                <div className="flex items-center justify-between">
-                  <p className="font-medium">{client.name}</p>
-                  <Badge variant={client.status === "active" ? "default" : "destructive"}>
-                    {client.status}
-                  </Badge>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Revenue: {client.revenue}</span>
-                  <span className={client.satisfaction >= 90 ? "text-success" : "text-warning"}>
-                    {client.satisfaction}% satisfaction
-                  </span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div 
-                    className={`h-full ${client.satisfaction >= 90 ? "bg-success" : "bg-warning"}`}
-                    style={{ width: `${client.satisfaction}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-      </div>
+      <AgentAnalytics agentNumber={10} />
 
       <Card className="p-6">
-        <h3 className="font-semibold text-lg mb-4">Quick Actions</h3>
-        <div className="grid md:grid-cols-3 gap-3">
-          <Button variant="outline" className="justify-start">
-            <Phone className="h-4 w-4 mr-2" />
-            Schedule Call
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-semibold text-lg flex items-center gap-2">
+            <Users className="h-5 w-5" />
+            CRM Automation Tasks
+          </h3>
+          <Button onClick={() => setDialogOpen(true)} className="gap-2">
+            <Play className="h-4 w-4" />
+            New CRM Task
           </Button>
-          <Button variant="outline" className="justify-start">
-            <Mail className="h-4 w-4 mr-2" />
-            Send Follow-up
+        </div>
+        <p className="text-sm text-muted-foreground mb-4">
+          Automate client relationship management tasks including outreach, follow-ups, lead qualification, and proposal generation.
+        </p>
+        <div className="grid md:grid-cols-4 gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setDialogOpen(true)}
+            className="justify-start"
+          >
+            <Mail className="h-3 w-3 mr-2" />
+            Email Campaign
           </Button>
-          <Button variant="outline" className="justify-start">
-            <Calendar className="h-4 w-4 mr-2" />
-            Book Meeting
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setDialogOpen(true)}
+            className="justify-start"
+          >
+            <Calendar className="h-3 w-3 mr-2" />
+            Schedule Meeting
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setDialogOpen(true)}
+            className="justify-start"
+          >
+            <UserPlus className="h-3 w-3 mr-2" />
+            Qualify Lead
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setDialogOpen(true)}
+            className="justify-start"
+          >
+            <Phone className="h-3 w-3 mr-2" />
+            Follow-up Call
           </Button>
         </div>
       </Card>
+
+      <RecentTasks agentNumber={10} key={refreshKey} />
+
+      <div className="grid md:grid-cols-2 gap-4">
+        <Card className="p-5">
+          <h4 className="font-semibold mb-3">CRM Capabilities</h4>
+          <div className="space-y-2">
+            {capabilities.map((capability, idx) => (
+              <div key={idx} className="flex items-center gap-2 p-2 bg-muted/30 rounded-lg">
+                <div className="h-2 w-2 rounded-full bg-success" />
+                <span className="text-sm">{capability}</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <Card className="p-5">
+          <h4 className="font-semibold mb-3">Task Templates</h4>
+          <div className="space-y-2">
+            {taskTypes.map((type, idx) => (
+              <Button
+                key={idx}
+                variant="ghost"
+                size="sm"
+                onClick={() => setDialogOpen(true)}
+                className="w-full justify-start"
+              >
+                <Users className="h-4 w-4 mr-2" />
+                {type}
+              </Button>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      <TaskExecutionDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        agentNumber={10}
+        agentName="CRM Agent"
+        taskTypes={taskTypes}
+        onTaskCreated={() => setRefreshKey(prev => prev + 1)}
+      />
     </div>
   );
 };
