@@ -5,29 +5,12 @@ import { agents } from "@/data/agentsData";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Filter } from "lucide-react";
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { User } from "@supabase/supabase-js";
+import { useState } from "react";
 import ScrollAnimation from "@/components/ScrollAnimation";
 
 const Agents = () => {
-  const [user, setUser] = useState<User | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   const categories = ["all", "sales", "marketing", "operations", "finance", "hr"];
 
@@ -40,7 +23,7 @@ const Agents = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation user={user} />
+      <Navigation />
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 relative overflow-hidden">
