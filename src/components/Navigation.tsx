@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Menu, LogOut } from "lucide-react";
-import { useState } from "react";
+import { Menu, LogOut, LayoutDashboard } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,14 +15,25 @@ const navLinks = [
   { label: "Resources", href: "/resources" },
 ];
 
-interface NavigationProps {
-  user?: User | null;
-}
-
-const Navigation = ({ user }: NavigationProps) => {
+const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -34,16 +45,16 @@ const Navigation = ({ user }: NavigationProps) => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="fixed top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-6">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center">
+          <Link to="/" className="flex items-center">
             <span className="text-2xl font-bold">
               <span className="text-foreground">Cardinal</span>
               {" "}
               <span className="text-accent">Agentic</span>
             </span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
@@ -61,11 +72,14 @@ const Navigation = ({ user }: NavigationProps) => {
           <div className="hidden md:flex items-center gap-4">
             {user ? (
               <>
-                <Link to="/agents/1/dashboard">
-                  <Button variant="ghost">Dashboard</Button>
+                <Link to="/dashboard">
+                  <Button variant="ghost" className="gap-2">
+                    <LayoutDashboard className="h-4 w-4" />
+                    Dashboard
+                  </Button>
                 </Link>
-                <Button variant="ghost" onClick={handleSignOut}>
-                  <LogOut className="h-4 w-4 mr-2" />
+                <Button variant="ghost" onClick={handleSignOut} className="gap-2">
+                  <LogOut className="h-4 w-4" />
                   Sign Out
                 </Button>
               </>
@@ -105,20 +119,23 @@ const Navigation = ({ user }: NavigationProps) => {
                 <div className="flex flex-col gap-3 pt-4 border-t">
                   {user ? (
                     <>
-                      <Link to="/agents/1/dashboard" className="w-full">
-                        <Button variant="outline" className="w-full">Dashboard</Button>
+                      <Link to="/dashboard" className="w-full" onClick={() => setIsOpen(false)}>
+                        <Button variant="outline" className="w-full gap-2">
+                          <LayoutDashboard className="h-4 w-4" />
+                          Dashboard
+                        </Button>
                       </Link>
-                      <Button variant="outline" className="w-full" onClick={handleSignOut}>
-                        <LogOut className="h-4 w-4 mr-2" />
+                      <Button variant="outline" className="w-full gap-2" onClick={handleSignOut}>
+                        <LogOut className="h-4 w-4" />
                         Sign Out
                       </Button>
                     </>
                   ) : (
                     <>
-                      <Link to="/auth" className="w-full">
+                      <Link to="/auth" className="w-full" onClick={() => setIsOpen(false)}>
                         <Button variant="outline" className="w-full">Sign In</Button>
                       </Link>
-                      <Link to="/auth" className="w-full">
+                      <Link to="/auth" className="w-full" onClick={() => setIsOpen(false)}>
                         <Button className="w-full bg-accent hover:bg-accent/90 text-white">
                           Get Started
                         </Button>

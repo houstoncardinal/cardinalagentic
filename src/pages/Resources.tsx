@@ -3,29 +3,12 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { User } from "@supabase/supabase-js";
+import { useState } from "react";
 import { BookOpen, FileText, Video, Code, HelpCircle, Search } from "lucide-react";
 import ScrollAnimation from "@/components/ScrollAnimation";
 
 const Resources = () => {
-  const [user, setUser] = useState<User | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   const resourceCategories = [
     {
@@ -92,7 +75,7 @@ const Resources = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation user={user} />
+      <Navigation />
       
       <section className="pt-32 pb-20 px-4">
         <div className="container mx-auto max-w-7xl">

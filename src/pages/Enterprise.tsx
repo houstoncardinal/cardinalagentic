@@ -5,15 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { User } from "@supabase/supabase-js";
+import { useState } from "react";
 import { Building2, Shield, Users, Globe, Award, Headphones } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ScrollAnimation from "@/components/ScrollAnimation";
 
 const Enterprise = () => {
-  const [user, setUser] = useState<User | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,20 +18,6 @@ const Enterprise = () => {
     message: ""
   });
   const { toast } = useToast();
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,7 +63,7 @@ const Enterprise = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation user={user} />
+      <Navigation />
       
       <section className="pt-32 pb-20 px-4">
         <div className="container mx-auto max-w-7xl">

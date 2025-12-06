@@ -2,30 +2,12 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { User } from "@supabase/supabase-js";
 import { Brain, Shield, Zap, Network, BarChart3, Clock, Lock, Workflow, Database, Code, Globe, TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ScrollAnimation from "@/components/ScrollAnimation";
 
 const Features = () => {
-  const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   const features = [
     {
@@ -104,7 +86,7 @@ const Features = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation user={user} />
+      <Navigation />
       
       <section className="pt-32 pb-20 px-4">
         <div className="container mx-auto max-w-7xl">
