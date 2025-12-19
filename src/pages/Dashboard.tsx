@@ -136,7 +136,12 @@ const Dashboard = () => {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="gap-2"
+                onClick={() => navigate("/settings")}
+              >
                 <User className="h-4 w-4" />
                 Profile
               </Button>
