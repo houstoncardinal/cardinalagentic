@@ -8,6 +8,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
+import Settings from "./pages/Settings";
+import WorkflowBuilder from "./pages/WorkflowBuilder";
 import AgentDetail from "./pages/agents/AgentDetail";
 import AgentDashboard from "./pages/agents/AgentDashboard";
 import Agents from "./pages/Agents";
@@ -30,6 +32,16 @@ const App = () => (
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/settings" element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        } />
+        <Route path="/workflow-builder" element={
+          <ProtectedRoute>
+            <WorkflowBuilder />
           </ProtectedRoute>
         } />
         <Route path="/agents" element={<Agents />} />
