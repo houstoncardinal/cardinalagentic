@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useCallback, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -21,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useWorkflows, WorkflowStep } from "@/hooks/useWorkflows";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { agents } from "@/data/agentsData";
@@ -37,16 +40,9 @@ import {
   Settings,
   GripVertical,
   X,
+  Loader2,
+  FolderOpen,
 } from "lucide-react";
-
-interface WorkflowStep {
-  id: string;
-  agentNumber: number;
-  agentName: string;
-  taskType: string;
-  description: string;
-  inputSource: "manual" | "previous";
-}
 
 const taskTypes: Record<number, string[]> = {
   1: ["Market Analysis", "Competitor Research", "Industry Trends", "Customer Insights"],
@@ -66,15 +62,39 @@ const taskTypes: Record<number, string[]> = {
 };
 
 const WorkflowBuilder = () => {
+  const [searchParams] = useSearchParams();
+  const editId = searchParams.get("id");
+  
+  const [workflowId, setWorkflowId] = useState<string | null>(editId);
   const [workflowName, setWorkflowName] = useState("");
   const [workflowDescription, setWorkflowDescription] = useState("");
   const [steps, setSteps] = useState<WorkflowStep[]>([]);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [runDialogOpen, setRunDialogOpen] = useState(false);
+  const [loadDialogOpen, setLoadDialogOpen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string>("");
   const [selectedTaskType, setSelectedTaskType] = useState<string>("");
   const [stepDescription, setStepDescription] = useState("");
+  const [inputData, setInputData] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [running, setRunning] = useState(false);
+  
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { workflows, saveWorkflow, runWorkflow, refetch } = useWorkflows();
+
+  // Load workflow if editing
+  useEffect(() => {
+    if (editId) {
+      const workflow = workflows.find(w => w.id === editId);
+      if (workflow) {
+        setWorkflowId(workflow.id);
+        setWorkflowName(workflow.name);
+        setWorkflowDescription(workflow.description || "");
+        setSteps(workflow.steps || []);
+      }
+    }
+  }, [editId, workflows]);
 
   const addStep = useCallback(() => {
     if (!selectedAgent || !selectedTaskType) {
@@ -124,7 +144,7 @@ const WorkflowBuilder = () => {
     setSteps(newSteps);
   };
 
-  const saveWorkflow = () => {
+  const handleSaveWorkflow = async () => {
     if (!workflowName.trim()) {
       toast({
         title: "Missing workflow name",
@@ -143,27 +163,64 @@ const WorkflowBuilder = () => {
       return;
     }
 
-    // Save workflow (in production, this would save to database)
-    toast({
-      title: "Workflow saved",
-      description: `"${workflowName}" has been saved with ${steps.length} steps`,
-    });
+    setSaving(true);
+    const result = await saveWorkflow(workflowName, workflowDescription, steps, workflowId || undefined);
+    setSaving(false);
+
+    if (result) {
+      setWorkflowId(result.id);
+      toast({
+        title: "Workflow saved",
+        description: `"${workflowName}" has been saved with ${steps.length} steps`,
+      });
+    }
   };
 
-  const runWorkflow = () => {
-    if (steps.length < 2) {
+  const handleRunWorkflow = async () => {
+    if (!workflowId) {
       toast({
-        title: "Cannot run workflow",
-        description: "Add at least 2 steps to run the workflow",
+        title: "Save workflow first",
+        description: "Please save your workflow before running it",
         variant: "destructive",
       });
       return;
     }
 
-    toast({
-      title: "Workflow started",
-      description: `Running "${workflowName || "Untitled Workflow"}" with ${steps.length} agents`,
-    });
+    setRunning(true);
+    try {
+      let parsedInput = {};
+      if (inputData.trim()) {
+        try {
+          parsedInput = JSON.parse(inputData);
+        } catch {
+          parsedInput = { data: inputData };
+        }
+      }
+      
+      await runWorkflow(workflowId, parsedInput);
+      setRunDialogOpen(false);
+      setInputData("");
+      refetch();
+    } finally {
+      setRunning(false);
+    }
+  };
+
+  const loadWorkflow = (workflow: typeof workflows[0]) => {
+    setWorkflowId(workflow.id);
+    setWorkflowName(workflow.name);
+    setWorkflowDescription(workflow.description || "");
+    setSteps(workflow.steps || []);
+    setLoadDialogOpen(false);
+    toast({ title: "Workflow loaded", description: workflow.name });
+  };
+
+  const newWorkflow = () => {
+    setWorkflowId(null);
+    setWorkflowName("");
+    setWorkflowDescription("");
+    setSteps([]);
+    navigate("/workflow-builder", { replace: true });
   };
 
   const getAgentColor = (agentNumber: number) => {
@@ -239,16 +296,88 @@ const WorkflowBuilder = () => {
             </div>
 
             <div className="flex gap-3">
-              <Button variant="outline" onClick={saveWorkflow} className="gap-2">
-                <Save className="h-4 w-4" />
-                Save
+              <Button variant="ghost" onClick={newWorkflow} className="gap-2">
+                <Plus className="h-4 w-4" />
+                New
               </Button>
-              <Button onClick={runWorkflow} className="gap-2">
-                <Play className="h-4 w-4" />
-                Run Workflow
+              <Dialog open={loadDialogOpen} onOpenChange={setLoadDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="gap-2">
+                    <FolderOpen className="h-4 w-4" />
+                    Load
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Load Workflow</DialogTitle>
+                    <DialogDescription>Select a saved workflow to edit</DialogDescription>
+                  </DialogHeader>
+                  <div className="max-h-[300px] overflow-y-auto space-y-2">
+                    {workflows.length === 0 ? (
+                      <p className="text-center text-muted-foreground py-4">No saved workflows</p>
+                    ) : (
+                      workflows.map((w) => (
+                        <div
+                          key={w.id}
+                          onClick={() => loadWorkflow(w)}
+                          className="p-3 rounded-lg border border-border hover:border-accent cursor-pointer transition-colors"
+                        >
+                          <p className="font-medium">{w.name}</p>
+                          <p className="text-sm text-muted-foreground">{w.steps?.length || 0} steps</p>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
+              <Button variant="outline" onClick={handleSaveWorkflow} disabled={saving} className="gap-2">
+                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                {saving ? "Saving..." : "Save"}
               </Button>
+              <Dialog open={runDialogOpen} onOpenChange={setRunDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="gap-2" disabled={steps.length < 2}>
+                    <Play className="h-4 w-4" />
+                    Run Workflow
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Run Workflow</DialogTitle>
+                    <DialogDescription>
+                      Execute "{workflowName || "Untitled"}" with {steps.length} steps
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 py-4">
+                    <div className="space-y-2">
+                      <Label>Initial Input Data (Optional)</Label>
+                      <Textarea
+                        value={inputData}
+                        onChange={(e) => setInputData(e.target.value)}
+                        placeholder="Enter JSON or text to pass to first step..."
+                        rows={4}
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setRunDialogOpen(false)} disabled={running}>
+                      Cancel
+                    </Button>
+                    <Button onClick={handleRunWorkflow} disabled={running || !workflowId} className="gap-2">
+                      {running && <Loader2 className="h-4 w-4 animate-spin" />}
+                      {running ? "Running..." : "Run"}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
+
+          {workflowId && (
+            <Badge variant="secondary" className="mb-4">
+              Editing saved workflow
+            </Badge>
+          )}
 
           {/* Workflow Canvas */}
           <div className="grid lg:grid-cols-3 gap-8">

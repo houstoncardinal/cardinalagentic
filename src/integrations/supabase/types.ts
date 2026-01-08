@@ -119,15 +119,231 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          agents_limit: number
+          created_at: string
+          id: string
+          period_end: string
+          period_start: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          tasks_limit: number
+          tasks_used: number
+          tier: Database["public"]["Enums"]["subscription_tier"]
+          updated_at: string
+          user_id: string
+          workflows_limit: number
+        }
+        Insert: {
+          agents_limit?: number
+          created_at?: string
+          id?: string
+          period_end?: string
+          period_start?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tasks_limit?: number
+          tasks_used?: number
+          tier?: Database["public"]["Enums"]["subscription_tier"]
+          updated_at?: string
+          user_id: string
+          workflows_limit?: number
+        }
+        Update: {
+          agents_limit?: number
+          created_at?: string
+          id?: string
+          period_end?: string
+          period_start?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tasks_limit?: number
+          tasks_used?: number
+          tier?: Database["public"]["Enums"]["subscription_tier"]
+          updated_at?: string
+          user_id?: string
+          workflows_limit?: number
+        }
+        Relationships: []
+      }
+      usage_logs: {
+        Row: {
+          action_type: string
+          agent_number: number | null
+          created_at: string
+          credits_used: number | null
+          id: string
+          metadata: Json | null
+          tokens_used: number | null
+          user_id: string
+        }
+        Insert: {
+          action_type: string
+          agent_number?: number | null
+          created_at?: string
+          credits_used?: number | null
+          id?: string
+          metadata?: Json | null
+          tokens_used?: number | null
+          user_id: string
+        }
+        Update: {
+          action_type?: string
+          agent_number?: number | null
+          created_at?: string
+          credits_used?: number | null
+          id?: string
+          metadata?: Json | null
+          tokens_used?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      workflow_runs: {
+        Row: {
+          completed_at: string | null
+          current_step: number
+          error_message: string | null
+          id: string
+          input_data: Json | null
+          output_data: Json | null
+          started_at: string
+          status: Database["public"]["Enums"]["workflow_run_status"]
+          step_results: Json
+          total_steps: number
+          user_id: string
+          workflow_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          current_step?: number
+          error_message?: string | null
+          id?: string
+          input_data?: Json | null
+          output_data?: Json | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["workflow_run_status"]
+          step_results?: Json
+          total_steps: number
+          user_id: string
+          workflow_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          current_step?: number
+          error_message?: string | null
+          id?: string
+          input_data?: Json | null
+          output_data?: Json | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["workflow_run_status"]
+          step_results?: Json
+          total_steps?: number
+          user_id?: string
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_runs_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflows: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_template: boolean
+          last_run_at: string | null
+          name: string
+          run_count: number
+          status: Database["public"]["Enums"]["workflow_status"]
+          steps: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_template?: boolean
+          last_run_at?: string | null
+          name: string
+          run_count?: number
+          status?: Database["public"]["Enums"]["workflow_status"]
+          steps?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_template?: boolean
+          last_run_at?: string | null
+          name?: string
+          run_count?: number
+          status?: Database["public"]["Enums"]["workflow_status"]
+          steps?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_usage_limit: {
+        Args: { _limit_type: string; _user_id: string }
+        Returns: boolean
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      increment_task_usage: { Args: { _user_id: string }; Returns: undefined }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
+      subscription_tier: "free" | "starter" | "professional" | "enterprise"
+      workflow_run_status:
+        | "pending"
+        | "running"
+        | "completed"
+        | "failed"
+        | "cancelled"
+      workflow_status: "draft" | "active" | "paused" | "archived"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -254,6 +470,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+      subscription_tier: ["free", "starter", "professional", "enterprise"],
+      workflow_run_status: [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "cancelled",
+      ],
+      workflow_status: ["draft", "active", "paused", "archived"],
+    },
   },
 } as const
