@@ -8,6 +8,8 @@ import { useToast } from "@/hooks/use-toast";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import TaskResultDialog from "@/components/dashboard/TaskResultDialog";
+import { UsageCard } from "@/components/dashboard/UsageCard";
+import { SavedWorkflows } from "@/components/dashboard/SavedWorkflows";
 import { 
   Bot, 
   TrendingUp, 
@@ -20,7 +22,8 @@ import {
   LogOut,
   User,
   BarChart3,
-  ListTodo
+  ListTodo,
+  Workflow
 } from "lucide-react";
 import { format } from "date-fns";
 
@@ -232,45 +235,30 @@ const Dashboard = () => {
                   </Link>
                 ))}
               </div>
+
+              {/* Workflow Builder Link */}
+              <Link to="/workflow-builder">
+                <Card className="p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group border-border bg-gradient-to-r from-accent/5 to-accent/10 hover:border-accent/30">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-xl bg-accent shadow-lg">
+                      <Workflow className="h-6 w-6 text-accent-foreground" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors">
+                        Workflow Builder
+                      </h3>
+                      <p className="text-sm text-muted-foreground">Chain agents together for automated processes</p>
+                    </div>
+                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
+                  </div>
+                </Card>
+              </Link>
             </div>
 
-            {/* Recent Tasks */}
+            {/* Sidebar */}
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-foreground">Recent Tasks</h2>
-                <Badge variant="secondary">{tasks.length} tasks</Badge>
-              </div>
-              
-              <Card className="divide-y divide-border bg-card border-border">
-                {tasks.length === 0 ? (
-                  <div className="p-8 text-center">
-                    <Zap className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">No tasks yet</p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Start by running your first AI agent task
-                    </p>
-                  </div>
-                ) : (
-                  tasks.slice(0, 5).map((task) => (
-                    <div 
-                      key={task.id} 
-                      className="p-4 hover:bg-muted/50 cursor-pointer transition-colors"
-                      onClick={() => handleTaskClick(task)}
-                    >
-                      <div className="flex items-start gap-3">
-                        {getStatusIcon(task.status)}
-                        <div className="flex-1 min-w-0">
-                          <p className="font-medium text-foreground truncate">{task.task_type}</p>
-                          <p className="text-sm text-muted-foreground truncate">{task.agent_name}</p>
-                          <p className="text-xs text-muted-foreground mt-1">
-                            {format(new Date(task.created_at), "MMM d, h:mm a")}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </Card>
+              <UsageCard />
+              <SavedWorkflows />
             </div>
           </div>
         </div>
